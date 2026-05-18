@@ -44,10 +44,6 @@ const TodoPages = () => {
 
       setDeleteTarget(null)
       setSuccessMessage('削除しました')
-
-      setTimeout(() => {
-        setSuccessMessage('')
-      }, 3000)
     }
   }
 

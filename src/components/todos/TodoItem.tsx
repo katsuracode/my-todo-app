@@ -1,14 +1,15 @@
 import { Link } from 'react-router-dom'
+import type { Priority } from '../../types/priority'
 import type { Todo } from '../../types/todo'
 import './TodoItem.css'
 
-const priorityColors = {
+const priorityColors: Record<Priority, string> = {
   low: 'priority-low',
   medium: 'priority-medium',
   high: 'priority-high',
 }
 
-const priorityLabels = {
+const priorityLabels: Record<Priority, string> = {
   low: '低',
   medium: '中',
   high: '高',

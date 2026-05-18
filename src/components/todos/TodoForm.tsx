@@ -6,8 +6,8 @@ import { validateTodo } from '../../utils/validation'
 import './TodoForm.css'
 
 type TodoFormProps = {
-  initialValues: Omit<Todo, 'id' | 'completed'> | Todo
-  onSubmit: (values: Omit<Todo, 'id' | 'completed'> | Todo) => void
+  initialValues: Omit<Todo, 'id' | 'completed'>
+  onSubmit: (values: Omit<Todo, 'id' | 'completed'>) => void
   submitText: string
 }
 
@@ -17,7 +17,7 @@ const TodoForm = ({
   submitText = '保存',
 }: TodoFormProps) => {
   const [values, setValues] = useState<Omit<Todo, 'id' | 'completed'> | Todo>(
-    initialValues,
+    initialValues as Omit<Todo, 'id' | 'completed'>,
   )
 
   const [errors, setErrors] = useState<ValidationError>({})
@@ -81,7 +81,11 @@ const TodoForm = ({
           type='date'
           name='dueDate'
           id='dueDate'
-          value={values.dueDate.toLocaleString()}
+          value={
+            values.dueDate instanceof Date
+              ? values.dueDate.toISOString().split('T')[0]
+              : values.dueDate
+          }
           onChange={handleChange}
           className={errors.dueDate ? 'form-input error' : 'form-input'}
           maxLength={10}

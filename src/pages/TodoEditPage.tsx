@@ -37,7 +37,7 @@ const TodoEditPage = () => {
   }
 
   const handleSubmit = (values: Todo) => {
-    updateTodo(id, values)
+    updateTodo(id, { ...values, id, completed: todo.completed })
 
     navigate('/todos', { state: { message: '更新しました' } })
   }

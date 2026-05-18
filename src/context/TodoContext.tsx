@@ -5,7 +5,7 @@ import type { Todo } from '../types/todo'
 type TodoContextType = {
   todos: Todo[]
   addTodo: (todo: Omit<Todo, 'id' | 'completed'>) => void
-  updateTodo: (id: string, values: Todo) => void
+  updateTodo: (id: string, values: Omit<Todo, 'id' | 'completed'>) => void
   removeTodo: (id: string) => void
   toggleTodoCompleted: (id: string) => void
   getTodo: (id: string) => Todo | undefined
