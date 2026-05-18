@@ -20,7 +20,7 @@ const ConfirmDialog = ({
   return (
     <>
       <div className='dialog-overlay' onClick={onCancel}>
-        <div className='dialog-container'>
+        <div className='dialog-container' onClick={(e) => e.stopPropagation()}>
           <div className='dialog-header'>
             <h2 className='dialog-title'>{title}</h2>
           </div>

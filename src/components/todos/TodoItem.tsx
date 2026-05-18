@@ -28,7 +28,7 @@ const TodoItem = ({ todo, onToggle, onDelete }: TodoItemProps) => {
         <input
           type='checkbox'
           name='completed'
-          id='completed'
+          id={`completed-${todo.id}`}
           checked={todo.completed}
           onChange={() => onToggle(todo.id)}
           className='todo-checkbox'

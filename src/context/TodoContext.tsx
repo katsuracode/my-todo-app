@@ -18,7 +18,14 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
   const [todos, setTodos] = useState<Todo[]>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
-      return raw ? JSON.parse(raw) : []
+      if (!raw) return []
+
+      const parsed = JSON.parse(raw) as any[]
+
+      return parsed.map((todo) => ({
+        ...todo,
+        dueDate: todo.dueDate ? new Date(todo.dueDate) : new Date(),
+      }))
     } catch {
       return []
     }
@@ -44,9 +51,9 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
     })
   }
 
-  const updateTodo = (id: string, patch: Todo) => {
+  const updateTodo = (id: string, values: Omit<Todo, 'id' | 'completed'>) => {
     setTodos((prevTodos) =>
-      prevTodos.map((todo) => (todo.id === id ? { ...todo, ...patch } : todo)),
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, ...values } : todo)),
     )
   }
 
