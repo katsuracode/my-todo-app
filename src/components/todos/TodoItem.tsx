@@ -44,7 +44,9 @@ const TodoItem = ({ todo, onToggle, onDelete }: TodoItemProps) => {
               {priorityLabels[todo.priority]}
             </span>
             {todo.dueDate && (
-              <span className='due-data'>期日：{todo.dueDate}</span>
+              <span className='due-date'>
+                期日：{todo.dueDate.toLocaleString()}
+              </span>
             )}
           </div>
         </div>

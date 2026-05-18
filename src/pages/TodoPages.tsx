@@ -8,7 +8,7 @@ import './TodosPage.css'
 
 const TodoPages = () => {
   const { todos, toggleTodoCompleted, removeTodo } = useTodos()
-  const [deleteTarget, setDeleteTarget] = useState<Todo>(null)
+  const [deleteTarget, setDeleteTarget] = useState<Todo | null>(null)
   const [successMessage, setSuccessMessage] = useState('')
 
   const location = useLocation()
@@ -33,7 +33,9 @@ const TodoPages = () => {
 
   const handleDeleteClick = (id: string) => {
     const todo = todos.find((todo) => todo.id === id)
-    setDeleteTarget(todo)
+
+    if (todo) setDeleteTarget(todo)
+    else throw new Error(`Cant' find todo`)
   }
 
   const handleDeleteConfirm = () => {

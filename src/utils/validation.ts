@@ -9,7 +9,7 @@ const validateTodo = (input: Input) => {
   }
 
   if (input.title && input.title.length > 10) {
-    errors.detail = 'タイトルは10文字まで'
+    errors.title = 'タイトルは10文字まで'
   }
 
   if (input.detail && input.detail.length > 50) {
@@ -19,9 +19,9 @@ const validateTodo = (input: Input) => {
   if (input.dueDate) {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
-    const d = new Date(input.dueDate)
+    const d = input.dueDate
 
-    if (d < today) {
+    if (d.toISOString().split('T')[0] < today.toISOString().split('T')[0]) {
       errors.dueDate = '今日以降の日付を指定してください'
     }
   }

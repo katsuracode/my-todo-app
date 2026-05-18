@@ -4,11 +4,11 @@ import type { Todo } from '../types/todo'
 
 type TodoContextType = {
   todos: Todo[]
-  addTodo: (todo: Todo) => void
+  addTodo: (todo: Omit<Todo, 'id' | 'completed'>) => void
   updateTodo: (id: string, values: Todo) => void
   removeTodo: (id: string) => void
   toggleTodoCompleted: (id: string) => void
-  getTodo: (id: string) => Todo
+  getTodo: (id: string) => Todo | undefined
 }
 
 const STORAGE_KEY = 'app.todos'
@@ -27,12 +27,12 @@ const TodoProvider = ({ children }: React.PropsWithChildren) => {
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
-    } catch (e) {
+    } catch {
       console.error('ローカルストレージへの保存が失敗しました')
     }
   }, [todos])
 
-  const addTodo = (newTodo: Todo) => {
+  const addTodo = (newTodo: Omit<Todo, 'id' | 'completed'>) => {
     setTodos((prevTodos) => {
       const todoWithId = {
         ...newTodo,

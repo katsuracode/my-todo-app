@@ -9,6 +9,8 @@ const TodoEditPage = () => {
   const { getTodo, updateTodo } = useTodos()
   const navigate = useNavigate()
 
+  if (!id) throw new Error('No ID was given!')
+
   const todo = getTodo(id)
 
   if (!todo) {
@@ -27,14 +29,14 @@ const TodoEditPage = () => {
     )
   }
 
-  const initialValues: Todo = {
+  const initialValues: Omit<Todo, 'id' | 'completed'> = {
     title: todo.title || '',
     detail: todo.detail || '',
     dueDate: todo.dueDate || new Date(),
-    priority: todo.priority || 'medium',
+    priority: todo.priority,
   }
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: Todo) => {
     updateTodo(id, values)
 
     navigate('/todos', { state: { message: '更新しました' } })

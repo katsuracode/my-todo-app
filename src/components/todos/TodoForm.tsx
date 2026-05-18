@@ -1,12 +1,13 @@
-import { useState, type ChangeEvent, type SubmitEventHandler } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { ValidationError } from '../../types/error'
+import type { Todo } from '../../types/todo'
 import { validateTodo } from '../../utils/validation'
 import './TodoForm.css'
-import type { Todo } from '../../types/todo'
 
 type TodoFormProps = {
-  initialValues: Todo
-  onSubmit: (values: Todo) => void
+  initialValues: Omit<Todo, 'id' | 'completed'> | Todo
+  onSubmit: (values: Omit<Todo, 'id' | 'completed'> | Todo) => void
   submitText: string
 }
 
@@ -15,16 +16,21 @@ const TodoForm = ({
   onSubmit,
   submitText = '保存',
 }: TodoFormProps) => {
-  const [values, setValues] = useState<Todo>(initialValues)
-  const [errors, setErrors] = useState({})
+  const [values, setValues] = useState<Omit<Todo, 'id' | 'completed'> | Todo>(
+    initialValues,
+  )
+
+  const [errors, setErrors] = useState<ValidationError>({})
   const navigate = useNavigate()
 
-  const handleChange = (e: ChangeEvent) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.currentTarget
     setValues((prevValues) => ({ ...prevValues, [name]: value }))
   }
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const errors = validateTodo(values)
@@ -75,7 +81,7 @@ const TodoForm = ({
           type='date'
           name='dueDate'
           id='dueDate'
-          value={values.dueDate}
+          value={values.dueDate.toLocaleString()}
           onChange={handleChange}
           className={errors.dueDate ? 'form-input error' : 'form-input'}
           maxLength={10}

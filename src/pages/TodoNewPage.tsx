@@ -8,14 +8,14 @@ const TodoNewPage = () => {
   const { addTodo } = useTodos()
   const navigate = useNavigate()
 
-  const initialValues: Todo = {
+  const initialValues: Omit<Todo, 'id' | 'completed'> = {
     title: '',
     detail: '',
     dueDate: new Date(),
     priority: 'medium',
   }
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: Omit<Todo, 'id' | 'completed'>) => {
     addTodo(values)
 
     navigate('/todos', { state: { message: '登録しました' } })
